@@ -15,7 +15,7 @@ In order to do antyhing with *Clhoe*, we first need to include her. Yes, the
 name is one heck of a pun on the actual name.
 
 ```javascript
-	const Clhoe = require('clhoe')
+const Clhoe = require('clhoe')
 ```
 
 ### Basic Routing
@@ -24,9 +24,9 @@ Routing is done by calling the `route` function on `Clhoe`. The defined routes
 will be executed automatically once all routes have been added.
 
 ```javascript
-	Clhoe.route((command) => {
-		// TODO: add routes
-	})
+Clhoe.route((command) => {
+	// TODO: add routes
+})
 ```
 
 Inside the closure passed to `route`, we get the opportunity to define command 
@@ -40,9 +40,9 @@ matches with what is entered into the terminal.
 As a simple example, one might write:
 
 ```javascript
-	command('new project', () => {
-		console.log('Creating a new project...')
-	})
+command('new project', () => {
+	console.log('Creating a new project...')
+})
 ```
 
 The callback will be called, if an only if, the passed arguments from the 
@@ -62,9 +62,9 @@ The above example is quite dull on its own. At the very least, it would be nice
 if the user could specify the name they want for their project:
 
 ```javascript
-	command('new [project]', ({ project }) => {
-		console.log('Creating a new project ' + project + '...')
-	})
+command('new [project]', ({ project }) => {
+	console.log('Creating a new project ' + project + '...')
+})
 ```
 
 The `[]` enclosed area captures whatever is typed in by the user and stores that 
@@ -90,14 +90,14 @@ This can be accomplished by introducing an optional group, for which we can use
 the `{}` syntax:
 
 ```javascript
-	command('new [project] {--type [type]}', ({ project, type }) => {
-		type = type || 'default'
-		
-		if (!['default', 'amazing'].includes(type))
-			throw new Error('Invalid type!')
-		
-		console.log('Creating a new ' + type + ' project ' + project + '...')
-	})
+command('new [project] {--type [type]}', ({ project, type }) => {
+	type = type || 'default'
+	
+	if (!['default', 'amazing'].includes(type))
+		throw new Error('Invalid type!')
+	
+	console.log('Creating a new ' + type + ' project ' + project + '...')
+})
 ```
 
 The `type` property on the variables object will be `undefined` if the user 
@@ -115,19 +115,19 @@ that will print additional information regarding the process of setting our
 project up.
 
 ```javascript
-	command('new [project] {--type [type]} {-v}', ({ project, type }, groups) => {
-		type = type || 'default'
-		
-		if (!['default', 'amazing'].includes(type))
-			throw new Error('Invalid type!')
-		
-		console.log('Creating a new ' + type + ' project ' + project + '...')
-		
-		if (groups.includes('-v'))
-		{
-			// TODO: implement verbose mode
-		}
-	})
+command('new [project] {--type [type]} {-v}', ({ project, type }, groups) => {
+	type = type || 'default'
+	
+	if (!['default', 'amazing'].includes(type))
+		throw new Error('Invalid type!')
+	
+	console.log('Creating a new ' + type + ' project ' + project + '...')
+	
+	if (groups.includes('-v'))
+	{
+		// TODO: implement verbose mode
+	}
+})
 ```
 
 We can check if an optional group was used by seeing if its name is available in 
@@ -139,11 +139,11 @@ create our example application in verbose mode.
 If no route was matched, a default callback (if provided) will be called:
 
 ```javascript
-	Clhoe.route((command) => {
-		// ...
-	}).else(() => {
-		console.log('No command was matched!')
-	})
+Clhoe.route((command) => {
+	// ...
+}).else(() => {
+	console.log('No command was matched!')
+})
 ```
 
 The chained `else` function will add such a callback.
@@ -153,16 +153,16 @@ The chained `else` function will add such a callback.
 Let us have a look at how a help command might be implemented:
 
 ```javascript
-	let help = () => {
-		console.log('Help command!')
-	}
+let help = () => {
+	console.log('Help command!')
+}
+
+Clhoe.route((command) => {
+	// Full match: 'help'
+	command('help', help)
 	
-	Clhoe.route((command) => {
-		// Full match: 'help'
-		command('help', help)
-		
-		// ...
-	}).else(help)
+	// ...
+}).else(help)
 ```
 
 Thus, either if `$ mycommand help` is successfully matched, or no match at all 
