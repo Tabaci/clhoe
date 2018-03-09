@@ -37,7 +37,7 @@ matches with what is entered into the terminal.
 
 ### Command Route Syntax
 
-As a simple example, one might write:
+For an example, let us create a command that creates a new project:
 
 ```javascript
 command('new project', () => {
@@ -53,8 +53,8 @@ $ mycommand new project
 Creating a new project...
 ```
 
-Otherwise, nothing will be matched. Adding default behavior, we will discuss 
-once all the syntax is covered.
+Otherwise, nothing will be matched. How to add default behavior if no route was 
+matched will be discussed once all the syntax has been covered.
 
 #### Variable Captures
 
@@ -108,7 +108,7 @@ $ mycommand new monkeys --type amazing
 Creating a new amazing project monkeys...
 ```
 
-#### Flags
+#### Verbose Flag
 
 Using what we know, let us implement an optional flag `-v` for the same program 
 that will print additional information regarding the process of setting our 
