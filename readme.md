@@ -1,6 +1,6 @@
 # clhoe
 
-This is an *npm* module that provides simple, yet elegant, routing for command 
+This is an *npm* module that provides simple, yet powerful, routing for command 
 line interfaces, in a similar fashion to mainstream HTTP routing.
 
 ## Installation
