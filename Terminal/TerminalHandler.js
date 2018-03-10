@@ -142,7 +142,7 @@ module.exports = class TerminalHandler
 			let singleSegment = single.segment
 			let token = this._tokens.shift()
 			
-			if (token === undefined)
+			if (token === undefined && !(singleSegment instanceof SegmentVariable && singleSegment.isVarargs))
 				// We are out of tokens to match, but we still have segments!
 				
 				return false
@@ -154,7 +154,9 @@ module.exports = class TerminalHandler
 					// Extract the rest into the varargs
 					
 					// The first token is already shifted off, add that first
-					variables[singleSegment.text] = [ token.text ]
+					variables[singleSegment.text] = (token !== undefined) ?
+							[ token.text ] : 
+							[]
 					
 					// Now add the rest of the tokens
 					for (let curToken of this._tokens)
@@ -168,8 +170,6 @@ module.exports = class TerminalHandler
 			else if (singleSegment.text !== token.text)
 				return false
 		}
-		
-		console.log(variables)
 		
 		return this._tokens.length === 0
 	}
