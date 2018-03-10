@@ -169,6 +169,8 @@ module.exports = class TerminalHandler
 				return false
 		}
 		
+		console.log(variables)
+		
 		return this._tokens.length === 0
 	}
 }

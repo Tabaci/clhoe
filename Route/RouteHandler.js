@@ -26,11 +26,13 @@ module.exports = class RouteHandler
 	match (terminalHandler)
 	{
 		// Copy terminal handler
-		terminalHandler = terminalHandler.copy()
-		
 		for (let route of this._routes)
-			if (terminalHandler.matchRoute(route))
+		{
+			let terminalHandlerCopy = terminalHandler.copy()
+			
+			if (terminalHandlerCopy.matchRoute(route))
 				return true
+		}
 		
 		return false
 	}
