@@ -12,9 +12,22 @@ module.exports = class SegmentVariable extends Segment
 {
 	/**
 	 * @param {string} name - The name for this variable segment.
+	 * @param {boolean} isVarargs - Whether varargs or not (...).
 	 */
-	constructor (name)
+	constructor (
+			name, 
+			isVarargs)
 	{
 		super (name)
+		
+		/**
+		 * @type {boolean}
+		 */
+		this._isVarargs = isVarargs
+	}
+	
+	get isVarargs ()
+	{
+		return this._isVarargs
 	}
 }

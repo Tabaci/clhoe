@@ -77,9 +77,18 @@ module.exports = class RouteParser
 	static makeSegment (piece)
 	{
 		if (piece[0] === '[' && piece[piece.length - 1] === ']')
+		{
 			// Is enclosed in '[]'
 			
-			return new SegmentVariable(piece.substring(1, piece.length - 1))
+			piece = piece.substring(1, piece.length - 1)
+			
+			if (piece[0] === '.' && piece[1] === '.' && piece[2] === '.')
+				// Is varargs
+				
+				return new SegmentVariable(piece.substring(3), true)
+			else
+				return new SegmentVariable(piece, false)
+		}
 		else
 			return new Segment(piece)
 	}

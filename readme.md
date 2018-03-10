@@ -134,6 +134,34 @@ We can check if an optional group was used by seeing if its name is available in
 the `groups` array added to the callback. If `-v` is included, we wish to 
 create our example application in verbose mode. 
 
+#### Variable Captures Varargs
+
+It is also possible to capture a varargs number of strings from the command the 
+user typed in:
+
+```javascript
+command('new [project] [...args]', ({ project, args }) => {
+	console.log('Creating project ' + project + ' with:')
+	
+	for (let arg of args)
+		console.log(arg)
+})
+```
+
+The `args` we extracted will always be in the form of an array, as such on 
+running the command, we might get something like this:
+
+```
+$ mycommand new monkeys lots of strings
+Creating project monkeys with:
+lots
+of
+strings
+```
+
+It is possible to use optional groups at the same time as using varargs, as 
+optional groups are always evaluated first, before anything else is evaluated.
+
 ### Default Command
 
 If no route was matched, a default callback (if provided) will be called:

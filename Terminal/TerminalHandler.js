@@ -135,22 +135,40 @@ module.exports = class TerminalHandler
 	 */
 	_matchSingles (singles, variables)
 	{
-		if (this._tokens.length !== singles.length)
-			return false
+		let single
 		
-		// Now match the singles in order
-		for (let i = 0; i < this._tokens.length; i ++)
+		while ((single = singles.shift()) !== undefined)
 		{
-			let token = this._tokens[i]
-			let single = singles[i]
 			let singleSegment = single.segment
+			let token = this._tokens.shift()
+			
+			if (token === undefined)
+				// We are out of tokens to match, but we still have segments!
+				
+				return false
 			
 			if (singleSegment instanceof SegmentVariable)
-				variables[singleSegment.text] = token.text
+			{
+				if (singleSegment.isVarargs)
+				{
+					// Extract the rest into the varargs
+					
+					// The first token is already shifted off, add that first
+					variables[singleSegment.text] = [ token.text ]
+					
+					// Now add the rest of the tokens
+					for (let curToken of this._tokens)
+						variables[singleSegment.text].push(curToken.text)
+					
+					this._tokens = []
+				}
+				else
+					variables[singleSegment.text] = token.text
+			}
 			else if (singleSegment.text !== token.text)
 				return false
 		}
 		
-		return true
+		return this._tokens.length === 0
 	}
 }
